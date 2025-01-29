@@ -1,6 +1,7 @@
 import Piece from './piece';
 import Player from '../player';
 import Square from '../square';
+import {checkIfKing} from '../utils';
 
 export default class Rook extends Piece {
     constructor(player) {
@@ -19,10 +20,18 @@ export default class Rook extends Piece {
                 if(column !== currCol){ 
                   const move = Square.at(location.row , column);
                   const piece = board.getPiece(move)
-                  if (piece) {
-                    break;
+                  
+                  if (!!piece) {
+                    if (piece.player === Player.WHITE || checkIfKing(board, move)) {
+                      break;
+                    } else {
+                      moves.push(move);
+                      break;
+                    }
+                  } else {
+                    moves.push(move);
                   }
-                  moves.push(move);
+                
                 }  
               } 
             
@@ -31,10 +40,16 @@ export default class Rook extends Piece {
                 if(row !== currRow){ 
                   const move = Square.at(row , location.col);
                   const piece = board.getPiece(move);
-                  if (piece) {
-                    break;
+                  if (!!piece) {
+                    if (piece.player === Player.WHITE || checkIfKing(board, move)) {
+                      break;
+                    } else {
+                      moves.push(move);
+                      break;
+                    }
+                  } else {
+                    moves.push(move);
                   }
-                  moves.push(move);
                   
                 }  
               }
