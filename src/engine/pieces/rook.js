@@ -8,6 +8,14 @@ export default class Rook extends Piece {
         super(player);
     }
 
+    checkIfCanMoveOnPiece(piece, board, move) {
+      if (piece.player === this.player || checkIfKing(board, move)) {
+        return false;
+      }
+
+      return true;
+    }
+
     getAvailableMoves(board) {
         const moves = [];
         let location = board.findPiece(this);
@@ -20,16 +28,12 @@ export default class Rook extends Piece {
                 if(column !== currCol){ 
                   const move = Square.at(location.row , column);
                   const piece = board.getPiece(move)
-                  
-                  if (!!piece) {
-                    if (piece.player === Player.WHITE || checkIfKing(board, move)) {
-                      break;
-                    } else {
-                      moves.push(move);
-                      break;
-                    }
-                  } else {
+
+                  if (!piece) {
                     moves.push(move);
+                  } else {
+                    this.checkIfCanMoveOnPiece(piece, board, move) && moves.push(move);
+                    break;
                   }
                 
                 }  
@@ -40,17 +44,14 @@ export default class Rook extends Piece {
                 if(row !== currRow){ 
                   const move = Square.at(row , location.col);
                   const piece = board.getPiece(move);
-                  if (!!piece) {
-                    if (piece.player === Player.WHITE || checkIfKing(board, move)) {
-                      break;
-                    } else {
-                      moves.push(move);
-                      break;
-                    }
-                  } else {
+
+                  if (!piece) {
                     moves.push(move);
+                  } else {
+                    this.checkIfCanMoveOnPiece(piece, board, move) && moves.push(move);
+                    break;
                   }
-                  
+
                 }  
               }
         }
