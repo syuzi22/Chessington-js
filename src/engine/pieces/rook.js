@@ -17,14 +17,25 @@ export default class Rook extends Piece {
              //Horizontal
              for(let column = 0; column < 8; column++ ){
                 if(column !== currCol){ 
-                  moves.push(Square.at(location.row , column));
+                  const move = Square.at(location.row , column);
+                  const piece = board.getPiece(move)
+                  if (piece) {
+                    break;
+                  }
+                  moves.push(move);
                 }  
               } 
             
             //Vertical  
             for(let row = 0; row < 8; row++ ){
                 if(row !== currRow){ 
-                  moves.push(Square.at(row , location.col));
+                  const move = Square.at(row , location.col);
+                  const piece = board.getPiece(move);
+                  if (piece) {
+                    break;
+                  }
+                  moves.push(move);
+                  
                 }  
               }
         }
